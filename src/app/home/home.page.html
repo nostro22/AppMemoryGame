@@ -1,0 +1,34 @@
+
+<ion-fab  vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab-button color="tertiary" (click)="logout()">
+    <ion-icon name="log-out"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-header >
+  <ion-toolbar color="secondary">
+    <ion-title *ngIf="playing" class="text-center"><ion-icon name="stopwatch-outline"></ion-icon> {{formatTime(elapsedTime)}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-grid *ngIf="isPortrait" class="bg-primary vw-100 vh-100 ">
+  
+  <ion-row class="ion-justify-content-evenly">
+    <ion-card *ngFor="let card of cartasSelecionadas.slice(0, cartasSelecionadas.length)" [ngStyle]="cardStyles"
+      color="primary" (click)="flipCard(card)">
+      <ion-img [hidden]="!card.show" [src]="card.value" alt="" ></ion-img>
+    </ion-card>
+  </ion-row>
+</ion-grid>
+
+<ion-grid *ngIf="!isPortrait" class="bg-primary vw-100 vh-100  ">
+  <ion-row class="ion-justify-content-evenly">
+    <ion-card *ngFor="let card of cartasSelecionadas.slice(0, cartasSelecionadas.length )" [ngStyle]="cardStyles"
+      color="primary" (click)="flipCard(card)">
+      <ion-img [hidden]="!card.show" [src]="card.value" alt="" ></ion-img>
+    </ion-card>
+  </ion-row>
+  
+</ion-grid>
+<ion-loading class="custom-loading" trigger="open-loading" message="Loading..." [duration]="3000"></ion-loading>

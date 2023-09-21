@@ -1,0 +1,126 @@
+<ion-content>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-img class="logo" src="../../assets/appIconS.png" alt=""></ion-img>
+    </ion-row>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col class="ion-justify-content-center ion-align-items-center" *ngFor="let card of cards">
+        <ion-card color="primary" class="ion-justify-content-center ion-align-items-center" (click)="flipCard(card)">
+          <ion-img [hidden]="!card.show" [src]="card.value" alt="" style="width: 100%; height: 100%;"></ion-img>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-loading class="custom-loading" trigger="open-loading" message="Loading..." [duration]="3000"></ion-loading>
+
+    <ion-header>
+      <ion-toolbar class="ion-justify-content-center pt-5" color="primary">
+        <ion-title class="ion-text-center ion-align-items-center">Memoria</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+
+    <ion-row  class="ion-justify-content-center ion-align-items-center">
+      <ion-button class="botonIngreso " color="tertiary" expand="block" (click)="setOpen(true)">Ingresar</ion-button>
+      <ion-modal *ngIf="isModalOpen" [isOpen]="isModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>Ingreso</ion-title>
+              <ion-buttons color="primary" slot="end">
+                <ion-button (click)="setOpen(false)"> Volver</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content>
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-card *ngFor="let account of accounts" (click)="llenarUsuario(account.id)">
+                <img [src]="account.foto" alt="" style="width: 100%; height: 100%;">
+                <ion-card-header>
+                  <ion-card-title>Card Title</ion-card-title>
+                  <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                </ion-card-header>
+              </ion-card>
+            </ion-row>
+
+
+            <form [formGroup]="formUser" class="login-form">
+              <ion-row class="ion-justify-content-center">
+                <ion-col size="10">
+                  <ion-item color="tertiary" class=" mt-2">
+                    <ion-label position="floating"><ion-icon name="mail-unread-sharp"></ion-icon> | Correo
+                      Electronico</ion-label>
+                    <ion-input formControlName="email" type="email" maxlength="20"></ion-input>
+                    <!-- <span>{{password.errors | json}}</span> -->
+                    <div [hidden]="email.valid || email.pristine">
+                      <div class="alert alert-danger fw-normal" *ngIf="email.errors?.['required']">Correo electronico es
+                        requerido.</div>
+                      <div class="alert alert-danger fw-light" *ngIf="email.hasError('pattern')">Correo electronico en
+                        formato
+                        incorrecto.
+                      </div>
+                    </div>
+                  </ion-item>
+                  <ion-item color="tertiary" class=" mt-2">
+
+                    <ion-label position="floating"> <ion-icon name="lock-closed-sharp"></ion-icon> | Clave</ion-label>
+                    <ion-input formControlName="password" type="password" maxlength="13"></ion-input>
+                    <div [hidden]="password.valid || (password.pristine)">
+                      <div *ngIf="password.errors?.['required']" class="alert alert-danger fw-normal">Clave es
+                        requerido.</div>
+                      <div *ngIf="password.errors?.['minlength']" class="alert alert-danger fw-light">clave debe tener
+                        minimo 6
+                        caracteres</div>
+                      <div *ngIf="password.hasError('maxlength')" class="alert alert-danger fw-light">clave debe tener
+                        maximo 12
+                        caracteres</div>
+                    </div>
+                  </ion-item>
+                  <ion-item color="tertiary" class="mt-2">
+                    <ion-radio-group class="d-flex" color="tertiary" formControlName="dificultad">
+                      <ion-item  color="tertiary">
+                        <ion-label >Fácil</ion-label>
+                        <ion-radio   value="1" ></ion-radio>
+                      </ion-item>
+                      <ion-item color="tertiary">
+                        <ion-label>Medio</ion-label>
+                        <ion-radio value="2"></ion-radio>
+                      </ion-item>
+                      <ion-item color="tertiary">
+                        <ion-label>Difícil</ion-label>
+                        <ion-radio value="3"></ion-radio>
+                      </ion-item>
+                    </ion-radio-group>
+                    <div [hidden]="dificultad.valid || dificultad.pristine">
+                      <div *ngIf="dificultad.errors?.['required']" class="alert alert-danger fw-normal">La dificultad es requerido.</div>
+                      <div *ngIf="dificultad.errors?.['minlength']" class="alert alert-danger fw-light">La dificultad tener minimo 1 caracteres</div>
+                      <div *ngIf="password.hasError('maxlength')" class="alert alert-danger fw-light">La dificultad debe tener maximo 1 caracteres</div>
+                    </div>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <ion-row class="ion-justify-content-center ion-align-items-center">
+                <ion-col size="5">
+                  <ion-button [disabled]="formUser.invalid" color="tertiary" id="open-loading" expand="block"
+                    class="login-button " (click)="login()">Ingresar</ion-button>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-button (click)="clear()">Limpiar</ion-button>
+                </ion-col>
+              </ion-row>
+            </form>
+
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-img class="logo" src="../../assets/appIconS.png" alt=""></ion-img>
+            </ion-row>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-row>
+
+    <!-- <ion-button expand="block" class="signup-button" (click)="signup()">Registrarse</ion-button> -->
+  </ion-grid>
+</ion-content>
